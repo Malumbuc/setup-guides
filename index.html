@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Setup Guides</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sidebar-width: 260px;
+      --accent: #6b57f0;
+      --accent-light: #ede9ff;
+      --bg: #f7f7f8;
+      --surface: #ffffff;
+      --border: #e5e5e7;
+      --text: #1a1a1a;
+      --muted: #6e6e73;
+      --code-bg: #1e1e2e;
+      --code-text: #cdd6f4;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Sidebar ── */
+    aside {
+      width: var(--sidebar-width);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 16px;
+      gap: 4px;
+    }
+
+    .sidebar-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 12px 16px;
+    }
+
+    nav button {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background .15s;
+    }
+
+    nav button:hover { background: var(--bg); }
+    nav button.active { background: var(--accent-light); color: var(--accent); }
+
+    nav button .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      background: var(--bg);
+    }
+
+    nav button.active .icon { background: var(--accent); }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .sidebar-footer a {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 4px 12px;
+    }
+
+    .sidebar-footer a:hover { color: var(--accent); }
+
+    /* ── Main content ── */
+    main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 48px 64px;
+      max-width: calc(var(--sidebar-width) + 820px);
+    }
+
+    .guide { display: none; }
+    .guide.active { display: block; }
+
+    /* ── Typography ── */
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h2 {
+      font-size: 18px;
+      font-weight: 650;
+      margin: 36px 0 12px;
+      color: var(--text);
+    }
+
+    h3 {
+      font-size: 14px;
+      font-weight: 650;
+      margin: 24px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+    }
+
+    p { margin-bottom: 12px; font-size: 15px; }
+
+    ul, ol {
+      margin: 8px 0 16px 20px;
+      font-size: 15px;
+    }
+
+    li { margin-bottom: 4px; }
+
+    strong { font-weight: 650; }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 10px 16px;
+      background: var(--accent-light);
+      border-radius: 0 6px 6px 0;
+      margin: 12px 0;
+      font-size: 14px;
+      color: #3d348b;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Inline code ── */
+    code {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 13px;
+      background: #f0effe;
+      color: #5b4fcf;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ── Code blocks ── */
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 10px;
+      padding: 20px;
+      overflow-x: auto;
+      margin: 12px 0 20px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    pre code {
+      background: none;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 12px 0 20px;
+    }
+
+    th {
+      text-align: left;
+      padding: 8px 12px;
+      background: var(--bg);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--bg); }
+
+    /* ── Gist link badge ── */
+    .gist-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      text-decoration: none;
+      margin-bottom: 28px;
+      transition: border-color .15s, color .15s;
+    }
+
+    .gist-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── Step numbers ── */
+    .steps ol {
+      list-style: none;
+      margin-left: 0;
+      counter-reset: steps;
+    }
+
+    .steps ol > li {
+      counter-increment: steps;
+      padding: 14px 16px 14px 52px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      font-size: 15px;
+    }
+
+    .steps ol > li::before {
+      content: counter(steps);
+      position: absolute;
+      left: 16px;
+      top: 14px;
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<aside>
+  <div class="sidebar-title">My Setup Guides</div>
+  <nav>
+    <button class="active" onclick="show('presets', this)">
+      <span class="icon">⚙️</span>
+      Claude Code Presets
+    </button>
+    <button onclick="show('github', this)">
+      <span class="icon">🔗</span>
+      Claude → GitHub
+    </button>
+    <button onclick="show('cursor', this)">
+      <span class="icon">✦</span>
+      Cursor Setup
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="https://gist.github.com/Malumbuc/da8947bb832e79d318726fbe5a3eb104" target="_blank">↗ Presets Gist</a>
+    <a href="https://gist.github.com/Malumbuc/519cd5e99791631cae74d0b91989b5c0" target="_blank">↗ GitHub Gist</a>
+    <a href="https://gist.github.com/Malumbuc/7bc518e4478f9d8549d0f420142b2f82" target="_blank">↗ Cursor Gist</a>
+  </div>
+</aside>
+
+<main>
+
+  <!-- ── Guide 1: Claude Code Presets ── -->
+  <article class="guide active" id="presets">
+    <h1>How I Set Up My Claude Code Presets</h1>
+    <p class="subtitle">A guide to replicating my Claude Code configuration for persistent, project-aware AI assistance.</p>
+    <a class="gist-link" href="https://gist.github.com/Malumbuc/da8947bb832e79d318726fbe5a3eb104" target="_blank">
+      ↗ View on GitHub Gist
+    </a>
+
+    <h2>What Are Presets?</h2>
+    <p>Claude Code supports two main types of persistent configuration:</p>
+    <ul>
+      <li><strong>CLAUDE.md</strong> — Instructions you write that Claude loads every session</li>
+      <li><strong>Auto Memory</strong> — Notes Claude writes itself as it learns your project</li>
+    </ul>
+
+    <hr>
+
+    <h2>1. CLAUDE.md (Your Instructions to Claude)</h2>
+    <p>This is the most important file. Create it in your project root and Claude will load it automatically at the start of every session.</p>
+
+    <h3>Scopes</h3>
+    <table>
+      <tr><th>File</th><th>Affects</th></tr>
+      <tr><td><code>/your-project/CLAUDE.md</code></td><td>That project (shareable via git)</td></tr>
+      <tr><td><code>~/.claude/CLAUDE.md</code></td><td>All your projects (personal, not shared)</td></tr>
+    </table>
+
+    <h3>What to Put In It</h3>
+    <p>Good CLAUDE.md files answer:</p>
+    <ul>
+      <li>What is this project? (overview, stack, architecture)</li>
+      <li>What files exist and what do they do?</li>
+      <li>What patterns does the code follow?</li>
+      <li>What are the git/workflow rules?</li>
+    </ul>
+
+    <h3>My Project's CLAUDE.md</h3>
+    <pre><code># CLAUDE.md
+
+## Project Overview
+Vanilla HTML/CSS/JavaScript project — no build system, no dependencies.
+Open any .html file directly in a browser.
+
+## Files
+- `index.html` — Two-player Tic Tac Toe with score tracking and win animations
+- `tic-tac-toe.html` — Simpler two-player variant
+- `tic-tac-toe-ai.html` — Single-player vs AI (Easy/Hard difficulty)
+
+## Git Workflow
+Commit work regularly. When pushing, create a new public repo under the
+Malumbuc GitHub account (named after the file/feature), not the existing remote.
+
+## Architecture
+All files are self-contained single-page apps (HTML + CSS + JS in one file).
+
+Shared patterns:
+- Board state: flat 9-element array (null/'' for empty, 'X'/'O' for played)
+- Win detection: hardcoded WINS array of 8 winning index triplets
+- DOM cells: data-index or data-i attributes map to board array
+- CSS classes toggled: taken, x, o, winner/win</code></pre>
+
+    <h3>Tips for Writing CLAUDE.md</h3>
+    <ul>
+      <li><strong>Keep it under 200 lines</strong> — Claude loads the whole file every session</li>
+      <li><strong>Be specific</strong> — "Use 2-space indentation" beats "format code nicely"</li>
+      <li><strong>Commit it</strong> — checking CLAUDE.md into git shares it with your whole team</li>
+    </ul>
+
+    <hr>
+
+    <h2>2. Auto Memory (Claude's Own Notes)</h2>
+    <p>Claude automatically takes notes about your project and saves them across sessions. You don't write these — Claude does.</p>
+
+    <h3>Where It Lives</h3>
+    <pre><code>~/.claude/projects/&lt;project-id&gt;/memory/MEMORY.md</code></pre>
+
+    <h3>What Gets Saved</h3>
+    <ul>
+      <li>Key architectural decisions and patterns it discovers</li>
+      <li>Solutions to recurring problems</li>
+      <li>Your workflow preferences it picks up on</li>
+      <li>Important file paths and project structure</li>
+    </ul>
+
+    <h3>How to Control It</h3>
+    <p>To <strong>ask Claude to remember something</strong> explicitly, just say:</p>
+    <blockquote>"Remember to always create a new repo under Malumbuc when pushing."</blockquote>
+    <p>To <strong>ask Claude to forget something</strong>:</p>
+    <blockquote>"Stop remembering that, remove it from memory."</blockquote>
+    <p>To <strong>view everything Claude has loaded</strong>, run <code>/memory</code> in any session.</p>
+
+    <h3>Enable / Disable Auto Memory</h3>
+    <p>In <code>.claude/settings.json</code> in your project:</p>
+    <pre><code>{
+  "autoMemoryEnabled": true
+}</code></pre>
+
+    <hr>
+
+    <h2>3. Quick Setup Steps</h2>
+    <div class="steps"><ol>
+      <li><strong>Create <code>CLAUDE.md</code></strong> in your project root with your project overview, file descriptions, architecture patterns, and workflow rules.</li>
+      <li><strong>Commit it</strong> — <code>git add CLAUDE.md &amp;&amp; git commit -m "Add Claude Code project instructions"</code></li>
+      <li><strong>Start a Claude Code session</strong> — it will auto-load your CLAUDE.md and begin building memory as you work.</li>
+      <li><em>Optional:</em> Create <code>~/.claude/CLAUDE.md</code> for personal preferences that apply across all your projects.</li>
+    </ol></div>
+
+    <hr>
+
+    <h2>Resources</h2>
+    <ul>
+      <li><a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank">Claude Code docs</a> — full documentation</li>
+      <li>Run <code>/memory</code> in any session to inspect what Claude has loaded</li>
+      <li>Run <code>/help</code> for a full list of Claude Code commands</li>
+    </ul>
+  </article>
+
+  <!-- ── Guide 2: Claude → GitHub ── -->
+  <article class="guide" id="github">
+    <h1>How I Connected Claude Code to GitHub</h1>
+    <p class="subtitle">Claude Code uses the GitHub CLI (<code>gh</code>), which you install and authenticate once. After that, Claude can create repos, push code, create Gists, open PRs, and more.</p>
+    <a class="gist-link" href="https://gist.github.com/Malumbuc/519cd5e99791631cae74d0b91989b5c0" target="_blank">
+      ↗ View on GitHub Gist
+    </a>
+
+    <h2>Step 1: Install the GitHub CLI</h2>
+    <p>On macOS with Homebrew:</p>
+    <pre><code>brew install gh</code></pre>
+    <p>Or download from <a href="https://cli.github.com" target="_blank">cli.github.com</a>.</p>
+
+    <hr>
+
+    <h2>Step 2: Authenticate with GitHub</h2>
+    <p>Run:</p>
+    <pre><code>gh auth login</code></pre>
+    <p>Follow the prompts:</p>
+    <ul>
+      <li>Select <strong>GitHub.com</strong></li>
+      <li>Select <strong>HTTPS</strong> as your preferred protocol</li>
+      <li>Select <strong>Login with a web browser</strong> (easiest)</li>
+      <li>Copy the one-time code shown, press Enter, and paste it in the browser</li>
+    </ul>
+    <p><code>gh</code> stores your credentials in your system keyring — no token files to manage.</p>
+
+    <hr>
+
+    <h2>Step 3: Verify It Worked</h2>
+    <pre><code>gh auth status</code></pre>
+    <p>You should see something like:</p>
+    <pre><code>github.com
+  ✓ Logged in to github.com account YourUsername (keyring)
+  - Token scopes: 'gist', 'read:org', 'repo'</code></pre>
+    <blockquote>Make sure <code>gist</code> and <code>repo</code> are in your token scopes. If they're missing, re-run <code>gh auth login</code> and select those scopes.</blockquote>
+
+    <hr>
+
+    <h2>What Claude Can Do After This</h2>
+    <table>
+      <tr><th>Task</th><th>Command Claude uses</th></tr>
+      <tr><td>Create a new repo</td><td><code>gh repo create</code></td></tr>
+      <tr><td>Push code to GitHub</td><td><code>git push</code> (via gh-configured auth)</td></tr>
+      <tr><td>Create a Gist (shareable link)</td><td><code>gh gist create</code></td></tr>
+      <tr><td>Open a pull request</td><td><code>gh pr create</code></td></tr>
+      <tr><td>View issues</td><td><code>gh issue list</code></td></tr>
+    </table>
+
+    <hr>
+
+    <h2>My Setup</h2>
+    <ul>
+      <li><strong>Account:</strong> Malumbuc</li>
+      <li><strong>Protocol:</strong> HTTPS</li>
+      <li><strong>Auth method:</strong> Web browser (one-time code)</li>
+      <li><strong>Credentials stored:</strong> macOS keyring (automatic, no token management needed)</li>
+      <li><strong>Scopes granted:</strong> <code>gist</code>, <code>read:org</code>, <code>repo</code></li>
+    </ul>
+
+    <hr>
+
+    <h2>Notes</h2>
+    <ul>
+      <li>You only need to do this once per machine — credentials persist</li>
+      <li>Claude never sees your token directly; it just runs <code>gh</code> commands</li>
+      <li>To log out: <code>gh auth logout</code></li>
+      <li>To switch accounts: <code>gh auth login</code> again with a different account</li>
+    </ul>
+  </article>
+
+  <!-- ── Guide 3: Cursor Setup ── -->
+  <article class="guide" id="cursor">
+    <h1>How I Set Up Cursor</h1>
+    <p class="subtitle">Cursor is an AI-powered code editor built on VS Code. This guide covers installation, GitHub connection, and configuring Claude as the AI model.</p>
+    <a class="gist-link" href="https://gist.github.com/Malumbuc/7bc518e4478f9d8549d0f420142b2f82" target="_blank">
+      ↗ View on GitHub Gist
+    </a>
+
+    <h2>Step 1: Install Cursor</h2>
+    <p>Install via Homebrew:</p>
+    <pre><code>brew install --cask cursor</code></pre>
+    <p>Launch from Spotlight (<code>Cmd + Space</code> → type "Cursor") or from <code>/Applications/Cursor.app</code>.</p>
+    <blockquote><strong>Alternative:</strong> Download the installer directly from <a href="https://cursor.com" target="_blank">cursor.com</a> if you prefer not to use Homebrew.</blockquote>
+
+    <hr>
+
+    <h2>Step 2: Connect to GitHub</h2>
+    <p>Cursor is built on VS Code, so GitHub integration works the same way.</p>
+    <div class="steps"><ol>
+      <li>Open Cursor</li>
+      <li>Click the <strong>Accounts icon</strong> in the bottom-left sidebar (person icon)</li>
+      <li>Click <strong>Sign in with GitHub</strong></li>
+      <li>A browser window opens — authorize Cursor in GitHub</li>
+      <li>You're redirected back and logged in</li>
+    </ol></div>
+    <p>Once connected you can clone repos (<code>Cmd + Shift + P</code> → "Git: Clone") and push/pull from the Source Control panel.</p>
+
+    <hr>
+
+    <h2>Step 3: Set Up Claude as the AI Model</h2>
+    <p>By default Cursor may use OpenAI models. To switch to Claude:</p>
+    <div class="steps"><ol>
+      <li>Open <strong>Cursor Settings</strong>: <code>Cmd + ,</code> or go to <strong>Cursor menu → Settings → Cursor Settings</strong></li>
+      <li>Go to the <strong>Models</strong> tab</li>
+      <li>Under <strong>AI Models</strong>, enable the Claude models you want (e.g. <code>claude-sonnet-4-5</code>, <code>claude-opus-4-5</code>)</li>
+      <li>Set a <strong>default model</strong> — I use Claude Sonnet for everyday tasks</li>
+    </ol></div>
+
+    <h3>Using Your Own Anthropic API Key (Optional)</h3>
+    <div class="steps"><ol>
+      <li>Go to <strong>Cursor Settings → Models</strong></li>
+      <li>Find the Anthropic API key field</li>
+      <li>Paste your API key from <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></li>
+    </ol></div>
+
+    <hr>
+
+    <h2>Step 4: Key Features to Know</h2>
+    <table>
+      <tr><th>Feature</th><th>How to Use</th></tr>
+      <tr><td><strong>AI Chat</strong></td><td><code>Cmd + L</code> — opens a chat panel, context-aware of your code</td></tr>
+      <tr><td><strong>Inline Edit</strong></td><td><code>Cmd + K</code> — edit code inline with a prompt</td></tr>
+      <tr><td><strong>Composer</strong></td><td><code>Cmd + I</code> — multi-file AI edits across your project</td></tr>
+      <tr><td><strong>Tab autocomplete</strong></td><td>Just type — Cursor suggests AI completions</td></tr>
+      <tr><td><strong>Ask about code</strong></td><td>Select code → <code>Cmd + L</code></td></tr>
+    </table>
+
+    <hr>
+
+    <h2>My Setup Summary</h2>
+    <table>
+      <tr><th>Setting</th><th>Value</th></tr>
+      <tr><td>Install method</td><td><code>brew install --cask cursor</code></td></tr>
+      <tr><td>AI model</td><td>Claude (Anthropic)</td></tr>
+      <tr><td>GitHub</td><td>Connected via built-in accounts panel</td></tr>
+      <tr><td>Custom rules</td><td>None (using defaults)</td></tr>
+    </table>
+
+    <hr>
+
+    <h2>Tips</h2>
+    <ul>
+      <li>Cursor is a drop-in replacement for VS Code — all your VS Code extensions work</li>
+      <li>Switch models mid-conversation in the chat panel using the model dropdown</li>
+      <li>Use <code>Cmd + K</code> for quick inline fixes and <code>Cmd + I</code> (Composer) for bigger changes across multiple files</li>
+    </ul>
+  </article>
+
+</main>
+
+<script>
+  function show(id, btn) {
+    document.querySelectorAll('.guide').forEach(g => g.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
