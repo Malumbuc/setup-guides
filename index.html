@@ -250,6 +250,59 @@
       text-decoration: none;
     }
 
+    /* ── Download cards ── */
+    .dl-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .dl-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(107,87,240,.1);
+      text-decoration: none;
+    }
+
+    .dl-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .dl-card-body { flex: 1; }
+
+    .dl-card-title {
+      font-weight: 650;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    .dl-card-desc {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .dl-card-arrow {
+      font-size: 18px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .dl-card:hover .dl-card-arrow { color: var(--accent); }
+
     /* ── Step numbers ── */
     .steps ol {
       list-style: none;
@@ -291,7 +344,11 @@
 <aside>
   <div class="sidebar-title">My Setup Guides</div>
   <nav>
-    <button class="active" onclick="show('presets', this)">
+    <button class="active" onclick="show('downloads', this)">
+      <span class="icon">⬇️</span>
+      Download First
+    </button>
+    <button onclick="show('presets', this)">
       <span class="icon">⚙️</span>
       Claude Code Presets
     </button>
@@ -313,8 +370,45 @@
 
 <main>
 
+  <!-- ── Download First ── -->
+  <article class="guide active" id="downloads">
+    <h1>Download First</h1>
+    <p class="subtitle">Start here. Set up these three tools before following any of the other guides.</p>
+
+    <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
+
+      <a class="dl-card" href="https://dev-guides.sqprod.co/docs/tools/cursor/getting-started" target="_blank">
+        <div class="dl-card-icon">✦</div>
+        <div class="dl-card-body">
+          <div class="dl-card-title">Cursor</div>
+          <div class="dl-card-desc">Quickstart with Cursor — an AI-powered IDE with agent mode and intelligent code completion.</div>
+        </div>
+        <div class="dl-card-arrow">↗</div>
+      </a>
+
+      <a class="dl-card" href="https://dev-guides.sqprod.co/docs/tools/claude-code/getting-started" target="_blank">
+        <div class="dl-card-icon">⚙️</div>
+        <div class="dl-card-body">
+          <div class="dl-card-title">Claude Code</div>
+          <div class="dl-card-desc">Quickstart with Claude Code — Anthropic's AI-powered coding assistant CLI.</div>
+        </div>
+        <div class="dl-card-arrow">↗</div>
+      </a>
+
+      <a class="dl-card" href="https://dev-guides.sqprod.co/docs/tools/github/getting-started" target="_blank">
+        <div class="dl-card-icon">🔗</div>
+        <div class="dl-card-body">
+          <div class="dl-card-title">GitHub</div>
+          <div class="dl-card-desc">Account setup — create your GitHub account, enable 2FA, and join the org.</div>
+        </div>
+        <div class="dl-card-arrow">↗</div>
+      </a>
+
+    </div>
+  </article>
+
   <!-- ── Guide 1: Claude Code Presets ── -->
-  <article class="guide active" id="presets">
+  <article class="guide" id="presets">
     <h1>How I Set Up My Claude Code Presets</h1>
     <p class="subtitle">A guide to replicating my Claude Code configuration for persistent, project-aware AI assistance.</p>
     <a class="gist-link" href="https://gist.github.com/Malumbuc/da8947bb832e79d318726fbe5a3eb104" target="_blank">
